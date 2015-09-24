@@ -1,0 +1,4 @@
+config SANCOV
+	bool "Sanitizer code coverage for fuzzing"
+	default n
+

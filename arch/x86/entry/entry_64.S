@@ -35,6 +35,7 @@
 #include <asm/asm.h>
 #include <asm/smap.h>
 #include <asm/pgtable_types.h>
+#include <asm/sancov.h>
 #include <linux/err.h>
 
 /* Avoid __ASSEMBLER__'ifying <linux/audit.h> just for this.  */
@@ -181,9 +182,11 @@ entry_SYSCALL_64_fastpath:
 	cmpl	$__NR_syscall_max, %eax
 #endif
 	ja	1f				/* return -ENOSYS (already in pt_regs->ax) */
+	SANCOV_SYSCALL_ENTER
 	movq	%r10, %rcx
 	call	*sys_call_table(, %rax, 8)
 	movq	%rax, RAX(%rsp)
+	SANCOV_SYSCALL_EXIT
 1:
 /*
  * Syscall return path ending with SYSRET (fast path).

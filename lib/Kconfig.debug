@@ -665,6 +665,8 @@ source "lib/Kconfig.kmemcheck"
 
 source "lib/Kconfig.kasan"
 
+source "lib/Kconfig.sancov"
+
 endmenu # "Memory Debugging"
 
 config DEBUG_SHIRQ

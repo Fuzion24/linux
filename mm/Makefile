@@ -4,6 +4,7 @@
 
 KASAN_SANITIZE_slab_common.o := n
 KASAN_SANITIZE_slub.o := n
+SANCOV_INSTRUMENT_page_alloc.o := n
 
 mmu-y			:= nommu.o
 mmu-$(CONFIG_MMU)	:= gup.o highmem.o memory.o mincore.o \
@@ -53,6 +54,10 @@ obj-$(CONFIG_SLAB) += slab.o
 obj-$(CONFIG_SLUB) += slub.o
 obj-$(CONFIG_KMEMCHECK) += kmemcheck.o
 obj-$(CONFIG_KASAN)	+= kasan/
+obj-$(CONFIG_SANCOV)	+= sancov.o
+KASAN_SANITIZE_sancov.o := n
+CFLAGS_REMOVE_sancov.o = -pg -fnoomit-frame-pointer
+CFLAGS_sancov.o := -fomit-frame-pointer
 obj-$(CONFIG_FAILSLAB) += failslab.o
 obj-$(CONFIG_MEMORY_HOTPLUG) += memory_hotplug.o
 obj-$(CONFIG_MEMTEST)		+= memtest.o

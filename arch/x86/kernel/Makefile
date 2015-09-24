@@ -16,6 +16,8 @@ CFLAGS_REMOVE_ftrace.o = -pg
 CFLAGS_REMOVE_early_printk.o = -pg
 endif
 
+SANCOV_INSTRUMENT := n
+
 KASAN_SANITIZE_head$(BITS).o := n
 KASAN_SANITIZE_dumpstack.o := n
 KASAN_SANITIZE_dumpstack_$(BITS).o := n

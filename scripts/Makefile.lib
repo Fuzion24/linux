@@ -129,6 +129,12 @@ _c_flags += $(if $(patsubst n%,, \
 		$(CFLAGS_KASAN))
 endif
 
+ifeq ($(CONFIG_SANCOV),y)
+_c_flags += $(if $(patsubst n%,, \
+	$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)$(SANCOV_INSTRUMENT_$(basetarget).o)$(SANCOV_INSTRUMENT)y), \
+	$(CFLAGS_SANCOV))
+endif
+
 # If building the kernel in a separate objtree expand all occurrences
 # of -Idir to -I$(srctree)/dir except for absolute paths (starting with '/').
 

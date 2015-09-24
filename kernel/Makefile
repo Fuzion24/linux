@@ -19,6 +19,12 @@ CFLAGS_REMOVE_cgroup-debug.o = $(CC_FLAGS_FTRACE)
 CFLAGS_REMOVE_irq_work.o = $(CC_FLAGS_FTRACE)
 endif
 
+SANCOV_INSTRUMENT_softirq.o := n
+# These are called from save_stack_trace on slub debug path,
+# and produce insane amounts of uninteresting coverage.
+SANCOV_INSTRUMENT_module.o := n
+SANCOV_INSTRUMENT_extable.o := n
+
 # cond_syscall is currently not LTO compatible
 CFLAGS_sys_ni.o = $(DISABLE_LTO)
 

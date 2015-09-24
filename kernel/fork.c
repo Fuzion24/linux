@@ -257,6 +257,11 @@ void __put_task_struct(struct task_struct *tsk)
 	delayacct_tsk_free(tsk);
 	put_signal_struct(tsk->signal);
 
+#ifdef CONFIG_SANCOV
+	if (tsk->cover)
+		kfree(tsk->cover);
+#endif
+
 	if (!profile_handoff_task(tsk))
 		free_task(tsk);
 }
@@ -381,6 +386,14 @@ static struct task_struct *dup_task_struct(struct task_struct *orig)
 	tsk->task_frag.page = NULL;
 
 	account_kernel_stack(ti, 1);
+
+#ifdef CONFIG_SANCOV
+	tsk->cover = NULL;
+	tsk->ecover = NULL;
+	tsk->cover_pos = 0;
+	tsk->cover_mask = 0;
+	tsk->cover_committed = 0;
+#endif
 
 	return tsk;
 

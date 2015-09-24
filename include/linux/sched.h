@@ -1802,6 +1802,13 @@ struct task_struct {
 	/* bitmask and counter of trace recursion */
 	unsigned long trace_recursion;
 #endif /* CONFIG_TRACING */
+#ifdef CONFIG_SANCOV
+	u32		*cover;
+	u32		*ecover;
+	unsigned long	cover_pos;
+	unsigned long	cover_mask;
+	unsigned long	cover_committed;
+#endif
 #ifdef CONFIG_MEMCG
 	struct memcg_oom_info {
 		struct mem_cgroup *memcg;
